@@ -39,3 +39,19 @@ class Resource(Base):
     metrics = relationship("Metric", back_populates="resource", cascade="all, delete-orphan")
     findings = relationship("SecurityFinding", back_populates="resource")
     incidents = relationship("Incident", back_populates="resource")
+
+
+class Metric(Base):
+    __tablename__ = "metrics"
+
+    id = Column(Integer, primary_key=True, index=True)
+    resource_id = Column(Integer, ForeignKey("resources.id"), nullable=False, index=True)
+    metric_name = Column(String(100), nullable=False, index=True)  # 'cpu_usage', 'memory_usage', 'app_health', 'error_rate', 'latency_ms'
+    value = Column(Float, nullable=False)
+    timestamp = Column(DateTime, default=utcnow, index=True, nullable=False)
+
+    resource = relationship("Resource", back_populates="metrics")
+
+    __table_args__ = (
+        Index("idx_metric_resource_timestamp", "resource_id", "timestamp"),
+    )
