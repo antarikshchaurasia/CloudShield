@@ -5,14 +5,25 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
+from backend.app.core.database import init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize 7-entity relational schema on startup
+    init_db()
+    yield
+
 
 app = FastAPI(
     title="CloudShield API",
     description="Unified Platform for Cloud Monitoring, Security Assessment, and Auto-Remediation",
     version=settings.VERSION,
+    lifespan=lifespan,
 )
 
 # CORS Middleware
