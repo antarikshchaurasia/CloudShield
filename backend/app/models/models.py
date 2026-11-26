@@ -55,3 +55,22 @@ class Metric(Base):
     __table_args__ = (
         Index("idx_metric_resource_timestamp", "resource_id", "timestamp"),
     )
+
+
+class SecurityFinding(Base):
+    __tablename__ = "security_findings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    rule_id = Column(String(50), index=True, nullable=False)  # 'SEC-001', 'SEC-002', etc.
+    rule_name = Column(String(255), nullable=False)
+    severity = Column(String(50), nullable=False, index=True)  # 'critical', 'high', 'medium', 'low'
+    resource_id = Column(Integer, ForeignKey("resources.id"), nullable=True)
+    target_file = Column(String(500), nullable=False)
+    evidence = Column(Text, nullable=False)
+    recommendation = Column(Text, nullable=False)
+    status = Column(String(50), default="open", index=True, nullable=False)  # 'open', 'resolved'
+    first_detected = Column(DateTime, default=utcnow, nullable=False)
+    last_observed = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+
+    resource = relationship("Resource", back_populates="findings")
+    remediations = relationship("RemediationJob", back_populates="finding")
