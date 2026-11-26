@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = "development"
 
+    # Database
+    DATABASE_URL: str = "sqlite:///./cloudshield.db"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
