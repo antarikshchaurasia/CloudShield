@@ -117,3 +117,18 @@ class RemediationJob(Base):
     finding = relationship("SecurityFinding", back_populates="remediations")
     requester = relationship("User", foreign_keys=[requested_by], back_populates="requested_remediations")
     approver = relationship("User", foreign_keys=[approved_by], back_populates="approved_remediations")
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    actor_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    actor_email = Column(String(255), nullable=False)
+    action = Column(String(100), nullable=False, index=True)
+    target = Column(String(255), nullable=False)
+    result = Column(String(50), nullable=False, index=True)  # 'success', 'failure', 'rejected'
+    details = Column(Text, nullable=True)
+    timestamp = Column(DateTime, default=utcnow, index=True, nullable=False)
+
+    actor = relationship("User", back_populates="audit_logs")
