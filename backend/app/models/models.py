@@ -74,3 +74,22 @@ class SecurityFinding(Base):
 
     resource = relationship("Resource", back_populates="findings")
     remediations = relationship("RemediationJob", back_populates="finding")
+
+
+class Incident(Base):
+    __tablename__ = "incidents"
+
+    id = Column(Integer, primary_key=True, index=True)
+    fingerprint = Column(String(255), index=True, nullable=False)  # unique active key: 'rule_name + resource_id'
+    resource_id = Column(Integer, ForeignKey("resources.id"), nullable=True, index=True)
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    severity = Column(String(50), default="high", index=True, nullable=False)  # 'critical', 'high', 'medium', 'low'
+    status = Column(String(50), default="open", index=True, nullable=False)  # 'open', 'acknowledged', 'resolved'
+    evidence = Column(Text, nullable=True)
+    recommended_action = Column(String(100), nullable=True)  # 'RESTART_TEST_APP', etc.
+    created_at = Column(DateTime, default=utcnow, index=True, nullable=False)
+    resolved_at = Column(DateTime, nullable=True)
+
+    resource = relationship("Resource", back_populates="incidents")
+    remediations = relationship("RemediationJob", back_populates="incident")
