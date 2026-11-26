@@ -33,3 +33,12 @@ def health_check():
         "version": settings.VERSION,
         "environment": settings.ENVIRONMENT,
     }
+
+
+@app.get("/api/version", tags=["System"])
+def version_check():
+    return {
+        "version": settings.VERSION,
+        "environment": settings.ENVIRONMENT,
+        "project": settings.PROJECT_NAME,
+    }
