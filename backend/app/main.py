@@ -53,3 +53,9 @@ def version_check():
         "environment": settings.ENVIRONMENT,
         "project": settings.PROJECT_NAME,
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", settings.BACKEND_PORT))
+    uvicorn.run(app, host="0.0.0.0", port=port)
