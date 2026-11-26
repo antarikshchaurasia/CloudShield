@@ -45,3 +45,51 @@ CloudShield enforces strict Role-Based Access Control to prevent privilege escal
 - **Actors:** Operator (Requester), Administrator (Approver/Executor).
 - **Post-conditions:** Worker executes safe allowlisted routine, validates post-execution health/security status, and marks job `succeeded` or `failed`.
 
+### UC-7: Immutable Audit Trail and Compliance Verification
+- **Description:** System logs every security scan, remediation request, approval, and execution event into an immutable audit table.
+- **Actors:** Administrator, Auditor.
+- **Post-conditions:** Tamper-evident record containing actor, timestamp, target, action type, before/after evidence, and verification outcome.
+
+---
+
+## 3. Measurable Acceptance Criteria
+
+| Requirement Area | Acceptance Criterion | Verification Method |
+| :--- | :--- | :--- |
+| **Telemetry Monitoring** | CPU, Memory, Health, Latency, and Error counts updated in UI every 5 seconds. | Live dashboard verification against `test-app`. |
+| **Alert Generation** | Injected failure (HTTP 500 or CPU > 85%) produces an incident within $\le 10$ seconds. | Failure simulation panel test. |
+| **Deduplication** | Repeated threshold alerts update existing incident without creating duplicate rows. | Database query checking distinct fingerprints. |
+| **Security Scanning** | 5 predefined rules detect 100% of injected policy flaws in `target_infrastructure.yaml`. | Automated Pytest scanner suite. |
+| **Repeat Scan Resolution**| Fixed configurations cause existing findings to transition to `resolved`. | Scanner diff validation. |
+| **Remediation Safety** | Arbitrary bash/shell input is strictly rejected; only `ACTION_REGISTRY` entries execute. | Code audit and negative security test. |
+| **Closed-Loop Verification**| Incidents and findings close ONLY if post-action health poll or re-scan succeeds. | End-to-end integration test. |
+| **Access Control (RBAC)**| Operator request to execute remediation without Admin approval returns HTTP 403 Forbidden. | Automated Pytest RBAC test. |
+| **Audit Completeness** | 100% of remediation attempts record actor, timestamps, before/after evidence, and outcome. | Audit log inspection. |
+| **Portability & Setup** | System boots cleanly on a fresh developer machine using a single command. | README clean-install verification. |
+
+---
+
+## 4. MoSCoW Scope Prioritization
+
+- **Must Have (Mandatory for Project Passing):**
+  - Full JWT Authentication with Admin and Operator RBAC
+  - Real-time Prometheus telemetry scraping from custom `test-app`
+  - Automated threshold alerts and deduplicated incident creation
+  - 5 YAML configuration security rules (`SEC-001` to `SEC-005`)
+  - Two working remediation scenarios (Scenario A: App Recovery; Scenario B: Config Remediation)
+  - Post-action verification and immutable audit logging
+
+- **Should Have:**
+  - Docker Compose multi-service deployment
+  - Comprehensive GitHub Actions CI workflow
+  - Live demo simulation panel in the React frontend
+  - Exportable academic evaluation results
+
+- **Could Have (Optional Extensions):**
+  - Read-only AWS Boto3 integration for S3 bucket public access inspection
+  - Synthetic workload generators for stress-testing latency histograms
+
+- **Won't Have (Explicit Out-of-Scope):**
+  - Production paid cloud infrastructure spend
+  - Complex multi-cloud Kubernetes cluster orchestration
+  - Black-box AI LLM execution of unvalidated shell commands
