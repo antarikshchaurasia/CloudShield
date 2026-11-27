@@ -94,6 +94,28 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
             })}
           </nav>
         </div>
+
+        <div className="pt-3 border-t border-slate-800/80">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2 px-2">
+            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-300 font-bold">
+              LOCAL LAB
+            </span>
+            <span className="flex items-center gap-1.5 text-cyan-400 text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              WEEK 1 SHELL
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+              CS
+            </div>
+            <div className="overflow-hidden">
+              <p className="text-xs font-semibold text-slate-200 truncate">Frontend Shell</p>
+              <p className="text-[10px] font-mono text-slate-400 truncate">Member 2 • UI/UX Stream</p>
+            </div>
+          </div>
+        </div>
       </aside>
     </>
   );
