@@ -70,3 +70,25 @@ h1, h2, h3, h4, h5, .font-heading {
 code, pre, .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
+
+/* Glassmorphism Cyber Panels */
+.cyber-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.cyber-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 12px 40px -8px rgba(0, 240, 255, 0.12);
+}
+
+.cyber-card-active {
+  border-color: var(--cyan-primary) !important;
+  box-shadow: 0 0 20px var(--cyan-glow) !important;
+}
