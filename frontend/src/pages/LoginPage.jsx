@@ -40,6 +40,25 @@ export const LoginPage = () => {
     setError('');
   };
 
+  const handleInstantDemoLogin = async (account) => {
+    setActiveTab('login');
+    setEmail(account.email);
+    setPassword(account.password);
+    setError('');
+    setLoading(true);
+    try {
+      await login(account.email, account.password);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setError(
+        err.response?.data?.detail ||
+          'Demo sign-in failed. Ensure FastAPI backend is running on port 8000.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -276,14 +295,25 @@ export const LoginPage = () => {
                     <p className="text-[11px] text-slate-300 mt-1">{account.email}</p>
                     <p className="text-[10px] text-slate-500 mt-1">{account.summary}</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo(account)}
-                    className="btn-cyber-dark justify-center text-[11px]"
-                  >
-                    <Zap size={12} className="text-cyan-400" />
-                    <span>Fill {account.role} Credentials</span>
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleFillDemo(account)}
+                      disabled={loading}
+                      className="flex-1 btn-cyber-dark justify-center text-[11px]"
+                    >
+                      <span>Fill Form</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleInstantDemoLogin(account)}
+                      disabled={loading}
+                      className="flex-1 btn-cyan justify-center text-[11px] py-1.5 px-2.5"
+                    >
+                      <Zap size={12} />
+                      <span>1-Click Sign In</span>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
