@@ -142,3 +142,54 @@ code, pre, .font-mono {
   border: 1px solid rgba(71, 85, 105, 0.5);
   color: #cbd5e1;
 }
+
+/* Interactive Buttons */
+.btn-cyan {
+  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  box-shadow: 0 4px 14px rgba(0, 114, 255, 0.35);
+  transition: all 0.2s ease;
+  font-size: 0.84rem;
+}
+
+.btn-cyan:hover {
+  background: linear-gradient(135deg, #33d1ff 0%, #1a82ff 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+}
+
+.btn-cyan:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cyber-dark {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  color: #cbd5e1;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+
+.btn-cyber-dark:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #ffffff;
+}
