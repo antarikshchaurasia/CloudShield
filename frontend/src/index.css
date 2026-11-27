@@ -14,4 +14,29 @@
   --bg-card-solid: #0a1122;
   --bg-nav: rgba(5, 8, 17, 0.92);
   --bg-sidebar: rgba(5, 8, 17, 0.95);
+
+  /* Cyber Neon Accents */
+  --cyan-primary: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.35);
+  --cyan-muted: #38bdf8;
+  --emerald-primary: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.35);
+  --amber-primary: #f59e0b;
+  --amber-glow: rgba(245, 158, 11, 0.35);
+  --rose-primary: #ef4444;
+  --rose-glow: rgba(239, 68, 68, 0.35);
+  --indigo-primary: #6366f1;
+  --purple-primary: #a855f7;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(30, 41, 59, 0.85);
+  --border-card: rgba(51, 65, 85, 0.55);
+  --border-cyan: rgba(0, 240, 255, 0.3);
+  --border-glow: rgba(56, 189, 248, 0.25);
+
+  /* Text */
+  --text-main: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
 }
