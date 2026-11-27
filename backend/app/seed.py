@@ -24,3 +24,16 @@ def seed_database(db: Session):
         db.add(admin)
         db.commit()
         db.refresh(admin)
+
+    # 2. Seed Default Operator
+    operator = db.query(User).filter(User.email == "operator@cloudshield.local").first()
+    if not operator:
+        operator = User(
+            email="operator@cloudshield.local",
+            password_hash=get_password_hash("Operator@123"),
+            role="operator",
+            created_at=datetime.now(timezone.utc)
+        )
+        db.add(operator)
+        db.commit()
+        db.refresh(operator)
