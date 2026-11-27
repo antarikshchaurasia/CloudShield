@@ -61,7 +61,7 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
                 <div className="flex items-center gap-1.5">
                   <span className="font-heading font-bold text-base text-white tracking-tight">CloudShield</span>
                   <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 font-semibold">
-                    v1.0
+                    v2.0
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-500 font-mono">SecOps Command Shell</p>
@@ -104,9 +104,9 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
             <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-300 font-bold">
               LOCAL LAB
             </span>
-            <span className="flex items-center gap-1.5 text-cyan-400 text-[10px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              WEEK 1 SHELL
+            <span className="flex items-center gap-1.5 text-emerald-400 text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              RBAC ACTIVE
             </span>
           </div>
 
