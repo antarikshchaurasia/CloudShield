@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Obsidian Cyber Surface Palette */
+  --bg-primary: #050811;
+  --bg-secondary: #080d1a;
+  --bg-tertiary: #0c1427;
+  --bg-card: rgba(10, 16, 31, 0.85);
+  --bg-card-hover: rgba(14, 24, 46, 0.92);
+  --bg-card-solid: #0a1122;
+  --bg-nav: rgba(5, 8, 17, 0.92);
+  --bg-sidebar: rgba(5, 8, 17, 0.95);
+}
