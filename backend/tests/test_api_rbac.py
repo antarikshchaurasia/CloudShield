@@ -14,3 +14,15 @@ def test_password_hashing_and_jwt_issuance():
     assert payload["sub"] == "admin@test.local"
     assert payload["role"] == "admin"
     assert "exp" in payload
+
+
+def test_health_and_unauthenticated_blocking(client):
+    res_health = client.get("/api/health")
+    assert res_health.status_code == 200
+    assert res_health.json()["status"] == "healthy"
+
+    res_ver = client.get("/api/version")
+    assert res_ver.status_code == 200
+
+    assert client.get("/api/auth/me").status_code == 401
+    assert client.get("/api/resources").status_code == 401
