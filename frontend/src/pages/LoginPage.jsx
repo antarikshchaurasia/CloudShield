@@ -5,11 +5,13 @@ import { useAuth } from '../context/AuthContext';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, register } = useAuth();
 
   const [activeTab, setActiveTab] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('operator');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,6 +25,28 @@ export const LoginPage = () => {
       navigate('/', { replace: true });
     } catch (err) {
       setError(err.response?.data?.detail || 'Invalid email or password.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    setLoading(true);
+    try {
+      await register(email.trim(), password, role);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Account registration failed.');
     } finally {
       setLoading(false);
     }
@@ -93,7 +117,7 @@ export const LoginPage = () => {
             </div>
           )}
 
-          {activeTab === 'login' && (
+          {activeTab === 'login' ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4 max-w-md">
               <div>
                 <label className="text-[10px] font-mono text-slate-400 uppercase font-semibold block mb-1.5">
@@ -139,6 +163,69 @@ export const LoginPage = () => {
 
               <button type="submit" disabled={loading} className="w-full btn-cyan py-2.5 font-mono">
                 <span>{loading ? 'Authenticating...' : 'Sign In with JWT'}</span>
+                <ArrowRight size={14} />
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleRegisterSubmit} className="space-y-3.5 max-w-md font-mono text-xs">
+              <div>
+                <label className="text-[10px] text-slate-400 uppercase font-semibold block mb-1">
+                  Work Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="engineer@cloudshield.local"
+                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] text-slate-400 uppercase font-semibold block mb-1">
+                  RBAC Role
+                </label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500"
+                >
+                  <option value="operator">Operator (View &amp; Request Remediation)</option>
+                  <option value="admin">Administrator (Full Approval &amp; Resource Control)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-slate-400 uppercase font-semibold block mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Minimum 6 characters"
+                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] text-slate-400 uppercase font-semibold block mb-1">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Repeat password"
+                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+
+              <button type="submit" disabled={loading} className="w-full btn-cyan py-2.5 font-bold">
+                <span>{loading ? 'Creating Account...' : 'Create Account & Sign In'}</span>
                 <ArrowRight size={14} />
               </button>
             </form>
