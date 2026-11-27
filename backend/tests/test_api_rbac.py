@@ -26,3 +26,29 @@ def test_health_and_unauthenticated_blocking(client):
 
     assert client.get("/api/auth/me").status_code == 401
     assert client.get("/api/resources").status_code == 401
+
+
+def test_login_flow(client):
+    res = client.post("/api/auth/login", json={
+        "email": "admin@test.local",
+        "password": "Admin@123"
+    })
+    assert res.status_code == 200
+    data = res.json()
+    assert "access_token" in data
+    assert data["token_type"] == "bearer"
+    assert data["user"]["email"] == "admin@test.local"
+    assert "password_hash" not in data["user"]
+
+    res_bad = client.post("/api/auth/login", json={
+        "email": "admin@test.local",
+        "password": "WrongPassword"
+    })
+    assert res_bad.status_code == 401
+
+
+def test_read_current_user_me(client, operator_headers):
+    res = client.get("/api/auth/me", headers=operator_headers)
+    assert res.status_code == 200
+    assert res.json()["email"] == "operator@test.local"
+    assert res.json()["role"] == "operator"
