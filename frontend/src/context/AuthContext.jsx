@@ -3,8 +3,18 @@ import { authApi } from '../services/api';
 
 const AuthContext = createContext(null);
 
+function readStoredUser() {
+  try {
+    const raw = localStorage.getItem('cloudshield_user');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    localStorage.removeItem('cloudshield_user');
+    return null;
+  }
+}
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(readStoredUser);
   const [token, setToken] = useState(() => localStorage.getItem('cloudshield_token') || null);
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +26,7 @@ export const AuthProvider = ({ children }) => {
           const userData = await authApi.getMe();
           setUser(userData);
           localStorage.setItem('cloudshield_user', JSON.stringify(userData));
-        } catch (err) {
+        } catch {
           localStorage.removeItem('cloudshield_token');
           localStorage.removeItem('cloudshield_user');
           setUser(null);
@@ -59,4 +69,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
