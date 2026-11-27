@@ -21,3 +21,13 @@ class UserResponse(BaseModel):
     email: str
     role: str
     created_at: datetime
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserResponse
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
