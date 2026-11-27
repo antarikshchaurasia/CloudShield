@@ -13,6 +13,7 @@ import {
   Shield,
   X,
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const SIDEBAR_NAV_ITEMS = [
   { to: '/', label: 'Overview', icon: LayoutDashboard },
@@ -27,6 +28,9 @@ export const SIDEBAR_NAV_ITEMS = [
 ];
 
 export const Sidebar = ({ isOpen = false, onClose }) => {
+  const { user } = useAuth();
+  const displayName = user?.email?.split('@')[0] || 'Operator';
+
   return (
     <>
       {isOpen && (
@@ -108,11 +112,13 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
 
           <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
-              CS
+              {displayName[0]?.toUpperCase() || 'U'}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-semibold text-slate-200 truncate">Frontend Shell</p>
-              <p className="text-[10px] font-mono text-slate-400 truncate">Member 2 • UI/UX Stream</p>
+              <p className="text-xs font-semibold text-slate-200 truncate capitalize">{displayName}</p>
+              <p className="text-[10px] font-mono text-slate-400 truncate capitalize">
+                {user?.role || 'operator'} • JWT Session
+              </p>
             </div>
           </div>
         </div>
