@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, Search } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const getPageTitle = (path) => {
   switch (path) {
@@ -28,7 +29,9 @@ export const getPageTitle = (path) => {
 };
 
 export const Navbar = ({ onToggleSidebar }) => {
+  const { user } = useAuth();
   const location = useLocation();
+  const displayName = user?.email?.split('@')[0] || 'Operator';
 
   return (
     <header
@@ -65,7 +68,7 @@ export const Navbar = ({ onToggleSidebar }) => {
           <input
             type="text"
             readOnly
-            placeholder="Global filter available in Week 2+..."
+            placeholder="Global filter available in Week 3+..."
             aria-label="Global search preview"
             className="w-full bg-slate-900/80 border border-slate-700/60 rounded-lg pl-9 pr-8 py-1.5 text-xs text-slate-400 placeholder-slate-500 focus:outline-none font-mono cursor-not-allowed"
           />
@@ -76,12 +79,24 @@ export const Navbar = ({ onToggleSidebar }) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/60 text-xs font-mono">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/60 text-xs font-mono">
           <span className="pulse-emerald" />
           <span className="text-slate-300 font-semibold text-[11px] tracking-wider">LOCAL LAB</span>
         </div>
 
-        <span className="cyber-badge badge-cyan hidden sm:inline-flex">WEEK 1 SKELETON</span>
+        <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xs ring-1 ring-cyan-500/40">
+            {displayName[0]?.toUpperCase() || 'U'}
+          </div>
+          <div className="text-left hidden md:block">
+            <p className="text-xs font-semibold text-slate-200 leading-tight capitalize">
+              {displayName}
+            </p>
+            <p className="text-[10px] font-mono text-cyan-400 leading-tight uppercase font-semibold">
+              {user?.role || 'operator'}
+            </p>
+          </div>
+        </div>
       </div>
     </header>
   );
