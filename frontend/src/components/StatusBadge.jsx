@@ -9,9 +9,24 @@ export const StatusBadge = ({ status = 'unknown', label, size = 'sm' }) => {
   if (['healthy', 'resolved', 'succeeded', 'success', 'online'].includes(norm)) {
     colorClasses = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
     dotColor = '#10b981';
+  } else if (['critical', 'unhealthy', 'failed', 'offline'].includes(norm)) {
+    colorClasses = 'bg-rose-500/15 text-rose-400 border-rose-500/30 font-semibold';
+    dotColor = '#f43f5e';
+  } else if (['high'].includes(norm)) {
+    colorClasses = 'bg-orange-500/15 text-orange-400 border-orange-500/30';
+    dotColor = '#f97316';
+  } else if (['degraded', 'acknowledged', 'medium', 'warning', 'planned'].includes(norm)) {
+    colorClasses = 'bg-amber-500/15 text-amber-300 border-amber-500/30';
+    dotColor = '#f59e0b';
+  } else if (['low', 'scaffolded'].includes(norm)) {
+    colorClasses = 'bg-cyan-500/10 text-cyan-300 border-cyan-500/25';
+    dotColor = '#22d3ee';
+  } else if (['pending', 'approved', 'executing', 'checking'].includes(norm)) {
+    colorClasses = 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30 animate-pulse';
+    dotColor = '#818cf8';
   }
 
-  const padding = size === 'xs' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-xs';
+  const padding = size === 'xs' ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs';
 
   return (
     <span
