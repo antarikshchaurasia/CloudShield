@@ -52,3 +52,30 @@ def test_read_current_user_me(client, operator_headers):
     assert res.status_code == 200
     assert res.json()["email"] == "operator@test.local"
     assert res.json()["role"] == "operator"
+
+
+def test_registration_flow(client):
+    res = client.post("/api/auth/register", json={
+        "email": "freshuser@test.local",
+        "password": "SecretPassword123",
+        "role": "operator"
+    })
+    assert res.status_code == 200
+    data = res.json()
+    assert data["email"] == "freshuser@test.local"
+    assert data["role"] == "operator"
+
+    res_dup = client.post("/api/auth/register", json={
+        "email": "freshuser@test.local",
+        "password": "SecretPassword123",
+        "role": "operator"
+    })
+    assert res_dup.status_code == 400
+    assert "already registered" in res_dup.json()["detail"]
+
+    res_login = client.post("/api/auth/login", json={
+        "email": "freshuser@test.local",
+        "password": "SecretPassword123"
+    })
+    assert res_login.status_code == 200
+    assert "access_token" in res_login.json()
