@@ -43,3 +43,9 @@ class ResourceBase(BaseModel):
 
 class ResourceCreate(ResourceBase):
     pass
+
+
+class ResourceResponse(ResourceBase):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    last_seen: datetime
