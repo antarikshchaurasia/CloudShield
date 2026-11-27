@@ -1,20 +1,44 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Eye, EyeOff, KeyRound, Lock, Mail, Shield, UserPlus } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, KeyRound, Lock, Mail, Shield, UserCheck, UserPlus, Zap } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+
+const DEMO_ACCOUNTS = [
+  {
+    label: 'Admin Demo',
+    email: 'admin@cloudshield.local',
+    password: 'Admin@123',
+    role: 'admin',
+    summary: 'Full access: manage resources, approve & execute remediations.',
+  },
+  {
+    label: 'Operator Demo',
+    email: 'operator@cloudshield.local',
+    password: 'Operator@123',
+    role: 'operator',
+    summary: 'Read telemetry & resources, triage incidents, submit requests.',
+  },
+];
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { login, register } = useAuth();
 
   const [activeTab, setActiveTab] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@cloudshield.local');
+  const [password, setPassword] = useState('Admin@123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('operator');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const handleFillDemo = (account) => {
+    setActiveTab('login');
+    setEmail(account.email);
+    setPassword(account.password);
+    setError('');
+  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -70,11 +94,11 @@ export const LoginPage = () => {
       </header>
 
       <main className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-4xl cyber-card p-6 sm:p-8 space-y-5">
+        <div className="w-full max-w-4xl cyber-card p-6 sm:p-8 space-y-6">
           <div>
             <h1 className="font-heading text-2xl font-bold text-white">CloudShield Authentication</h1>
             <p className="text-xs font-mono text-slate-400 mt-1">
-              Role-Based Access Control • Admin &amp; Operator Workspaces
+              Role-Based Access Control • Seeded Admin &amp; Operator Accounts
             </p>
           </div>
 
@@ -230,6 +254,40 @@ export const LoginPage = () => {
               </button>
             </form>
           )}
+
+          <div className="pt-4 border-t border-slate-800 space-y-3">
+            <span className="text-[10px] font-mono text-slate-400 uppercase font-bold tracking-wider block">
+              1-Click Seeded Demo Accounts
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+              {DEMO_ACCOUNTS.map((account) => (
+                <div
+                  key={account.email}
+                  className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between gap-2.5"
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-cyan-400 flex items-center gap-1.5">
+                        <UserCheck size={13} />
+                        {account.label}
+                      </span>
+                      <span className="cyber-badge badge-slate text-[10px]">{account.role}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 mt-1">{account.email}</p>
+                    <p className="text-[10px] text-slate-500 mt-1">{account.summary}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleFillDemo(account)}
+                    className="btn-cyber-dark justify-center text-[11px]"
+                  >
+                    <Zap size={12} className="text-cyan-400" />
+                    <span>Fill {account.role} Credentials</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </main>
 
