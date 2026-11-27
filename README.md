@@ -6,21 +6,27 @@
 ## 1. System Architecture Overview
 
 ```text
-[React 18 Dashboard] <──HTTP / REST──> [FastAPI Backend Gateway]
- (Vite, Tailwind, Recharts)              ├── Core Config & Health Probe (/api/health)
+[React 18 Dashboard] <──HTTP / JWT──> [FastAPI Backend Gateway]
+ (Vite, Tailwind, Recharts)              ├── Auth & RBAC (Bcrypt, HS256 JWT)
+                                         ├── Monitored Resources API (/api/resources)
                                          ├── SQLAlchemy 2.0 ORM (7 Entities)
                                          └── PostgreSQL 16 / SQLite Fallback
 ```
 
-## 2. Week 1 Status (Milestone 1 — Backend & Architecture)
-- Frozen SRS, functional requirements, and 7 core use cases (`docs/`)
-- Relational database schema drafted across 7 entities (`backend/app/models/models.py`)
-- FastAPI backend skeleton with `/api/health` and `/api/version` endpoints (`backend/app/main.py`)
-- Automatic SQLite fallback for zero-blocker local development (`backend/app/core/database.py`)
+## 2. Week 2 Status (Milestone 2 — Data Layer, JWT Auth & RBAC)
+- **Week 1 Foundation:** SRS & architecture docs (`docs/`), 7-entity ORM models (`backend/app/models/models.py`), FastAPI health probe
+- **Week 2 Security & Auth:**
+  - Bcrypt password hashing & HS256 JWT issuance (`backend/app/core/security.py`)
+  - Role-Based Access Control dependencies (`get_current_user`, `require_admin`, `require_operator_or_admin`)
+  - Authentication endpoints: `POST /api/auth/login`, `POST /api/auth/token`, `GET /api/auth/me`, `POST /api/auth/register`
+  - Monitored Resources API (`GET/POST /api/resources`) with Admin-only creation guard
+  - Database seed runner (`backend/app/seed.py`) with `admin@cloudshield.local` & `operator@cloudshield.local`
+  - Automated Auth & RBAC Pytest suite (`backend/tests/test_api_rbac.py`)
 
-## 3. Running the Week 1 Backend Skeleton
+## 3. Running & Testing Week 2 Backend
 ```bash
 pip install -r backend/requirements.txt
+python backend/app/seed.py
 python -m uvicorn backend.app.main:app --port 8000 --reload
+pytest backend/tests -v
 ```
-Verify health check at `http://localhost:8000/api/health` and Swagger docs at `http://localhost:8000/docs`.
