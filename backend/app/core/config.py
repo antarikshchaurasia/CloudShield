@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "CloudShield"
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = "development"
+    SECRET_KEY: str = "cloudshield-super-secret-jwt-key-replace-in-production-2026"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
 
     # Database
     DATABASE_URL: str = "sqlite:///./cloudshield.db"
