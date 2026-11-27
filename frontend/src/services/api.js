@@ -49,3 +49,15 @@ export const authApi = {
     return res.data;
   },
 };
+
+export const resourcesApi = {
+  list: async (status) => {
+    const params = status ? { status } : {};
+    const res = await apiClient.get('/api/resources', { params });
+    return res.data;
+  },
+  getById: async (resourceId) => {
+    const res = await apiClient.get(`/api/resources/${resourceId}`);
+    return res.data;
+  },
+};
