@@ -48,3 +48,20 @@ def login_form(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
 @router.get("/me", response_model=UserResponse)
 def read_current_user(current_user: User = Depends(get_current_user)):
     return current_user
+
+
+@router.post("/register", response_model=UserResponse)
+def register_user(payload: UserCreate, db: Session = Depends(get_db)):
+    existing = db.query(User).filter(User.email == payload.email).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    new_user = User(
+        email=payload.email,
+        password_hash=get_password_hash(payload.password),
+        role=payload.role if payload.role in ["admin", "operator"] else "operator"
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
