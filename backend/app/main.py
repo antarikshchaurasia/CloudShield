@@ -9,15 +9,22 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
-from backend.app.core.database import init_db
+from backend.app.core.database import init_db, SessionLocal
 from backend.app.api.auth import router as auth_router
 from backend.app.api.resources import router as resources_router
+from backend.app.seed import seed_database
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize 7-entity relational schema on startup
     init_db()
+    # Seed default Admin, Operator, and initial resources
+    db = SessionLocal()
+    try:
+        seed_database(db)
+    finally:
+        db.close()
     yield
 
 
