@@ -1,5 +1,29 @@
 import React from 'react';
-import { Shield } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Server,
+  Activity,
+  ShieldCheck,
+  AlertTriangle,
+  Wrench,
+  FileText,
+  BarChart3,
+  Settings,
+  Shield,
+} from 'lucide-react';
+
+export const SIDEBAR_NAV_ITEMS = [
+  { to: '/', label: 'Overview', icon: LayoutDashboard },
+  { to: '/resources', label: 'Resources', icon: Server },
+  { to: '/monitoring', label: 'Monitoring', icon: Activity },
+  { to: '/security', label: 'Security Posture', icon: ShieldCheck },
+  { to: '/incidents', label: 'Incidents', icon: AlertTriangle },
+  { to: '/remediation', label: 'Remediation', icon: Wrench },
+  { to: '/audit', label: 'Audit Logs', icon: FileText },
+  { to: '/reports', label: 'Reports', icon: BarChart3 },
+  { to: '/settings', label: 'Settings', icon: Settings },
+];
 
 export const Sidebar = () => {
   return (
@@ -26,6 +50,25 @@ export const Sidebar = () => {
             <p className="text-[10px] text-slate-500 font-mono">SecOps Command Shell</p>
           </div>
         </div>
+
+        <nav aria-label="Primary navigation" className="flex flex-col gap-1">
+          {SIDEBAR_NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/'}
+                className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
+              >
+                <div className="flex items-center gap-3">
+                  <Icon size={17} />
+                  <span>{item.label}</span>
+                </div>
+              </NavLink>
+            );
+          })}
+        </nav>
       </div>
     </aside>
   );
