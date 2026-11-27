@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { RotateCw } from 'lucide-react';
+import { Activity, AlertTriangle, RotateCw, Server, ShieldCheck } from 'lucide-react';
+import { KpiCard } from '../components/KpiCard';
 import { StatusBadge } from '../components/StatusBadge';
 
 export const DashboardPage = () => {
@@ -29,6 +30,41 @@ export const DashboardPage = () => {
           <span>Refresh Dashboard</span>
         </button>
       </div>
+
+      <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <KpiCard
+          title="Monitored Resources"
+          value="0"
+          subtitle="Syncing from /api/resources"
+          trend="Week 2 Live"
+          icon={Server}
+          accent="cyan"
+        />
+        <KpiCard
+          title="Healthy Endpoints"
+          value="0"
+          subtitle="Verified active targets"
+          trend="100% Target"
+          icon={Activity}
+          accent="emerald"
+        />
+        <KpiCard
+          title="Degraded Targets"
+          value="0"
+          subtitle="Requires Week 3 scan/triage"
+          trend="Policy Watch"
+          icon={AlertTriangle}
+          accent="amber"
+        />
+        <KpiCard
+          title="RBAC Posture"
+          value="JWT"
+          subtitle="Authenticated session active"
+          trend="HS256"
+          icon={ShieldCheck}
+          accent="indigo"
+        />
+      </section>
     </div>
   );
 };
