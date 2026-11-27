@@ -68,6 +68,26 @@ export const DashboardPage = () => {
         </button>
       </div>
 
+      <div className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] font-mono text-slate-400 flex-wrap gap-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 font-bold">
+            SESSION ACTIVE
+          </span>
+          <span>
+            USER: <strong className="text-slate-200">{user?.email}</strong>
+          </span>
+          <span className="text-slate-700">/</span>
+          <span>
+            GATEWAY: <strong className="text-cyan-400">{health?.service || 'CloudShield'} v{health?.version || '1.0.0'}</strong>
+          </span>
+        </div>
+        <span className="text-emerald-400">
+          {user?.role === 'admin'
+            ? 'Admin Clearance: Resource Write & Approvals Enabled'
+            : 'Operator Clearance: Read-Only Inventory Access'}
+        </span>
+      </div>
+
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <KpiCard
           title="Monitored Resources"
