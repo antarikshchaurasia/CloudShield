@@ -61,3 +61,14 @@ export const resourcesApi = {
     return res.data;
   },
 };
+
+export const systemApi = {
+  getHealth: async () => {
+    const res = await apiClient.get('/api/health');
+    return res.data;
+  },
+  getVersion: async () => {
+    const res = await apiClient.get('/api/version');
+    return res.data;
+  },
+};
