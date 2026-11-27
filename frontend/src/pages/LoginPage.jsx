@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   CheckCircle2,
@@ -35,7 +35,7 @@ const DEMO_ACCOUNTS = [
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const { login, register } = useAuth();
+  const { user, login, register } = useAuth();
 
   const [activeTab, setActiveTab] = useState('login');
   const [email, setEmail] = useState('admin@cloudshield.local');
@@ -107,6 +107,10 @@ export const LoginPage = () => {
       setLoading(false);
     }
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-[#050811] text-slate-100 flex flex-col justify-between">
