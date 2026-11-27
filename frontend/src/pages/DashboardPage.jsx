@@ -174,6 +174,33 @@ export const DashboardPage = () => {
           </table>
         </div>
       </section>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="cyber-card p-5 space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="font-heading text-base font-semibold text-white">
+              Week 2 Authentication &amp; Dashboard Complete
+            </h3>
+            <StatusBadge status="healthy" label="Verified" size="xs" />
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            JWT Bearer token interception, persistent AuthContext session check, 1-click Admin/Operator
+            demo login, and live KPI summary cards are wired to the FastAPI backend.
+          </p>
+        </div>
+
+        <div className="cyber-card p-5 space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="font-heading text-base font-semibold text-white">
+              Next Milestone: Week 3 SecOps Modules
+            </h3>
+            <StatusBadge status="planned" label="Week 3" size="xs" />
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Incident triage workflows, OWASP security findings inspector, and allowlisted remediation
+            approval modals will integrate in Week 3 once backend scanner and incident APIs land.
+          </p>
+        </div>
+      </section>
     </div>
   );
 };
