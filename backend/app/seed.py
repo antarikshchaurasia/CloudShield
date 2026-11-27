@@ -37,3 +37,39 @@ def seed_database(db: Session):
         db.add(operator)
         db.commit()
         db.refresh(operator)
+
+    # 3. Seed Initial Resources
+    res_app = db.query(Resource).filter(Resource.name == "test-app-service").first()
+    if not res_app:
+        res_app = Resource(
+            name="test-app-service",
+            resource_type="application",
+            endpoint_or_path="http://localhost:8001",
+            status="healthy",
+            last_seen=datetime.now(timezone.utc)
+        )
+        db.add(res_app)
+        db.commit()
+        db.refresh(res_app)
+
+    res_cfg = db.query(Resource).filter(Resource.name == "target-cloud-config").first()
+    if not res_cfg:
+        res_cfg = Resource(
+            name="target-cloud-config",
+            resource_type="storage_config",
+            endpoint_or_path="security-rules/samples/target_infrastructure.yaml",
+            status="degraded",
+            last_seen=datetime.now(timezone.utc)
+        )
+        db.add(res_cfg)
+        db.commit()
+        db.refresh(res_cfg)
+
+
+if __name__ == "__main__":
+    from backend.app.core.database import SessionLocal, init_db
+    init_db()
+    session = SessionLocal()
+    seed_database(session)
+    session.close()
+    print("Database seeding completed successfully.")
