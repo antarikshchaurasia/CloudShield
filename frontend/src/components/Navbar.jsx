@@ -74,6 +74,15 @@ export const Navbar = ({ onToggleSidebar }) => {
           </span>
         </div>
       </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/60 text-xs font-mono">
+          <span className="pulse-emerald" />
+          <span className="text-slate-300 font-semibold text-[11px] tracking-wider">LOCAL LAB</span>
+        </div>
+
+        <span className="cyber-badge badge-cyan hidden sm:inline-flex">WEEK 1 SKELETON</span>
+      </div>
     </header>
   );
 };
