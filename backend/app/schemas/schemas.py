@@ -31,3 +31,15 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+
+# Resource Schemas
+class ResourceBase(BaseModel):
+    name: str
+    resource_type: str
+    endpoint_or_path: Optional[str] = None
+    status: str = "healthy"
+
+
+class ResourceCreate(ResourceBase):
+    pass
