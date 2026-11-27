@@ -11,8 +11,10 @@ export const DashboardPage = () => {
   const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState('');
 
   const loadDashboardData = useCallback(async () => {
+    setError('');
     try {
       const [healthData, resourceList] = await Promise.all([
         systemApi.getHealth(),
@@ -20,6 +22,11 @@ export const DashboardPage = () => {
       ]);
       setHealth(healthData);
       setResources(Array.isArray(resourceList) ? resourceList : []);
+    } catch (err) {
+      setError(
+        err.response?.data?.detail ||
+          'Unable to reach FastAPI backend. Start uvicorn on port 8000 to load live KPIs.'
+      );
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -47,8 +54,10 @@ export const DashboardPage = () => {
               Security Operations Overview
             </h1>
             <StatusBadge
-              status={health?.status === 'healthy' ? 'healthy' : 'checking'}
-              label={health?.status === 'healthy' ? 'API Operational' : 'Connecting...'}
+              status={error ? 'offline' : health?.status === 'healthy' ? 'healthy' : 'checking'}
+              label={
+                error ? 'API Offline' : health?.status === 'healthy' ? 'API Operational' : 'Connecting...'
+              }
               size="xs"
             />
           </div>
@@ -68,6 +77,15 @@ export const DashboardPage = () => {
         </button>
       </div>
 
+      {error && (
+        <div className="p-3.5 rounded-lg bg-rose-950/70 border border-rose-500/40 text-rose-200 text-xs font-mono flex items-center justify-between gap-3 flex-wrap">
+          <span>{error}</span>
+          <button type="button" onClick={handleRefresh} className="btn-cyber-dark text-[11px] py-1 px-2.5">
+            Retry
+          </button>
+        </div>
+      )}
+
       <div className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] font-mono text-slate-400 flex-wrap gap-2">
         <div className="flex items-center gap-3 flex-wrap">
           <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 font-bold">
@@ -78,7 +96,10 @@ export const DashboardPage = () => {
           </span>
           <span className="text-slate-700">/</span>
           <span>
-            GATEWAY: <strong className="text-cyan-400">{health?.service || 'CloudShield'} v{health?.version || '1.0.0'}</strong>
+            GATEWAY:{' '}
+            <strong className="text-cyan-400">
+              {health?.service || 'CloudShield'} v{health?.version || '1.0.0'}
+            </strong>
           </span>
         </div>
         <span className="text-emerald-400">
@@ -126,6 +147,7 @@ export const DashboardPage = () => {
           loading={loading}
         />
       </section>
+
       <section className="cyber-card overflow-hidden">
         <div className="p-5 border-b border-slate-800/80 flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -174,6 +196,7 @@ export const DashboardPage = () => {
           </table>
         </div>
       </section>
+
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="cyber-card p-5 space-y-2">
           <div className="flex items-center justify-between">
