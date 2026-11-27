@@ -17,6 +17,11 @@ export default {
           amber: '#f59e0b',
         },
       },
+      fontFamily: {
+        heading: ['Outfit', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
+      },
     },
   },
   plugins: [],
