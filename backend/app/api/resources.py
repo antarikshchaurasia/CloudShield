@@ -8,3 +8,17 @@ from backend.app.models.models import Resource, User
 from backend.app.schemas.schemas import ResourceResponse, ResourceCreate
 
 router = APIRouter(prefix="/api/resources", tags=["Monitored Resources"])
+
+
+@router.get("", response_model=List[ResourceResponse])
+def list_resources(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(50, ge=1, le=100),
+    status: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    query = db.query(Resource)
+    if status:
+        query = query.filter(Resource.status == status)
+    return query.offset(skip).limit(limit).all()
