@@ -8,7 +8,15 @@ const ACCENT_MAP = {
   indigo: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
 };
 
-export const KpiCard = ({ title, value, subtitle, trend, icon: Icon, accent = 'cyan' }) => {
+export const KpiCard = ({
+  title,
+  value,
+  subtitle,
+  trend,
+  icon: Icon,
+  accent = 'cyan',
+  loading = false,
+}) => {
   const iconClass = ACCENT_MAP[accent] || ACCENT_MAP.cyan;
 
   return (
@@ -24,7 +32,11 @@ export const KpiCard = ({ title, value, subtitle, trend, icon: Icon, accent = 'c
         )}
       </div>
 
-      <p className="font-heading text-2xl sm:text-3xl font-bold text-white">{value}</p>
+      {loading ? (
+        <div className="h-8 w-24 rounded bg-slate-800/80 animate-pulse" />
+      ) : (
+        <p className="font-heading text-2xl sm:text-3xl font-bold text-white">{value}</p>
+      )}
 
       <div className="flex items-center justify-between text-[11px] font-mono">
         <span className="text-slate-400">{subtitle}</span>
