@@ -42,8 +42,18 @@ export const AuthProvider = ({ children }) => {
     return login(email, password);
   };
 
+  const logout = () => {
+    localStorage.removeItem('cloudshield_token');
+    localStorage.removeItem('cloudshield_user');
+    setUser(null);
+    setToken(null);
+  };
+
+  const isAdmin = user?.role === 'admin';
+  const isOperator = user?.role === 'operator';
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, isAdmin, isOperator }}>
       {children}
     </AuthContext.Provider>
   );
