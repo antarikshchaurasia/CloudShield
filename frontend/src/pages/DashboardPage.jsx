@@ -126,6 +126,54 @@ export const DashboardPage = () => {
           loading={loading}
         />
       </section>
+      <section className="cyber-card overflow-hidden">
+        <div className="p-5 border-b border-slate-800/80 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white">
+              Registered Infrastructure Resources
+            </h2>
+            <p className="text-xs font-mono text-slate-400">
+              Seeded targets served via JWT-protected GET /api/resources
+            </p>
+          </div>
+          <span className="cyber-badge badge-cyan">{resources.length} TOTAL</span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr className="border-b border-slate-800 bg-slate-900/60 font-mono text-[11px] uppercase text-slate-400">
+                <th className="py-3 px-4">Resource Name</th>
+                <th className="py-3 px-4">Type</th>
+                <th className="py-3 px-4">Endpoint / Path</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {resources.map((res) => (
+                <tr
+                  key={res.id}
+                  className="border-b border-slate-800/60 hover:bg-slate-900/40 transition-colors"
+                >
+                  <td className="py-3 px-4 font-semibold text-white">{res.name}</td>
+                  <td className="py-3 px-4 font-mono text-slate-300">{res.resource_type}</td>
+                  <td className="py-3 px-4 font-mono text-cyan-300">{res.endpoint_or_path}</td>
+                  <td className="py-3 px-4">
+                    <StatusBadge status={res.status} size="xs" />
+                  </td>
+                </tr>
+              ))}
+              {!loading && resources.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="py-6 px-4 text-center font-mono text-slate-500">
+                    No monitored resources found in database.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 };
