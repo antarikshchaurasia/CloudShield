@@ -34,3 +34,18 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const authApi = {
+  login: async (email, password) => {
+    const res = await apiClient.post('/api/auth/login', { email, password });
+    return res.data;
+  },
+  register: async (email, password, role = 'operator') => {
+    const res = await apiClient.post('/api/auth/register', { email, password, role });
+    return res.data;
+  },
+  getMe: async () => {
+    const res = await apiClient.get('/api/auth/me');
+    return res.data;
+  },
+};
