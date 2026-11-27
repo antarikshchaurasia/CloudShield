@@ -79,3 +79,27 @@ def test_registration_flow(client):
     })
     assert res_login.status_code == 200
     assert "access_token" in res_login.json()
+
+
+def test_rbac_admin_vs_operator_on_resources(client, admin_headers, operator_headers):
+    res_list = client.get("/api/resources", headers=operator_headers)
+    assert res_list.status_code == 200
+    assert len(res_list.json()) >= 2
+
+    # Operator cannot create resources (403 Forbidden)
+    res_op_create = client.post("/api/resources", json={
+        "name": "unauthorized-svc",
+        "resource_type": "application"
+    }, headers=operator_headers)
+    assert res_op_create.status_code == 403
+    assert "Administrative privileges required" in res_op_create.json()["detail"]
+
+    # Admin can create resources
+    res_admin_create = client.post("/api/resources", json={
+        "name": "prod-gateway",
+        "resource_type": "application",
+        "endpoint_or_path": "http://localhost:8080",
+        "status": "healthy"
+    }, headers=admin_headers)
+    assert res_admin_create.status_code == 200
+    assert res_admin_create.json()["name"] == "prod-gateway"
