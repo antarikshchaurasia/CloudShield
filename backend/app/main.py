@@ -10,6 +10,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
 from backend.app.core.database import init_db
+from backend.app.api.auth import router as auth_router
+from backend.app.api.resources import router as resources_router
 
 
 @asynccontextmanager
@@ -53,6 +55,10 @@ def version_check():
         "environment": settings.ENVIRONMENT,
         "project": settings.PROJECT_NAME,
     }
+
+
+app.include_router(auth_router)
+app.include_router(resources_router)
 
 
 if __name__ == "__main__":
