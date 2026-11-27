@@ -1,7 +1,74 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Layers, RefreshCw, ServerCog } from 'lucide-react';
+import {
+  Activity,
+  Database,
+  Layers,
+  Monitor,
+  RefreshCw,
+  ServerCog,
+  ShieldAlert,
+  Wrench,
+} from 'lucide-react';
+import { ModuleCard } from '../components/ModuleCard';
 import { StatusBadge } from '../components/StatusBadge';
 import { fetchBackendHealth, fetchBackendVersion } from '../services/healthService';
+
+const ARCHITECTURE_STREAMS = [
+  {
+    icon: Monitor,
+    title: 'Frontend Command Shell',
+    owner: 'Member 2 • UI/UX',
+    milestone: 'Week 1 Ready',
+    status: 'healthy',
+    description:
+      'React 18 + Vite SPA with Tailwind cyber design tokens, responsive drawer navigation, and route hierarchy.',
+  },
+  {
+    icon: ServerCog,
+    title: 'FastAPI Backend Gateway',
+    owner: 'Member 1 • Backend',
+    milestone: 'Week 1–2 Active',
+    status: 'healthy',
+    description:
+      'Asynchronous REST gateway exposing /api/health, /api/version, JWT authentication, and RBAC routes.',
+  },
+  {
+    icon: Database,
+    title: '7-Entity Relational Store',
+    owner: 'Member 1 • Data Layer',
+    milestone: 'Week 1 Schema',
+    status: 'scaffolded',
+    description:
+      'SQLAlchemy 2.0 ORM spanning users, resources, metrics, findings, incidents, remediations, and audit logs.',
+  },
+  {
+    icon: ShieldAlert,
+    title: 'OWASP Policy Scanner',
+    owner: 'Member 3 • Security',
+    milestone: 'Week 2–3 Target',
+    status: 'planned',
+    description:
+      'Declarative YAML compliance engine evaluating SEC-001 through SEC-005 infrastructure policies.',
+  },
+  {
+    icon: Activity,
+    title: 'Telemetry & Test-App',
+    owner: 'Member 4 • Monitoring',
+    milestone: 'Week 2–3 Target',
+    status: 'planned',
+    description:
+      'Prometheus scrape pipeline targeting instrumented microservices with fingerprint incident deduplication.',
+  },
+  {
+    icon: Wrench,
+    title: 'Allowlisted Remediation',
+    owner: 'Member 5 • DevOps & QA',
+    milestone: 'Week 3–4 Target',
+    status: 'planned',
+    description:
+      'Docker Compose orchestration, human-in-the-loop approval gates, and verified auto-remediation worker.',
+  },
+];
 
 export const OverviewShellPage = () => {
   const [healthState, setHealthState] = useState({
@@ -122,6 +189,20 @@ export const OverviewShellPage = () => {
           </div>
         )}
       </div>
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="font-heading text-lg font-semibold text-white">
+            5-Service System Architecture Blueprint
+          </h2>
+          <span className="text-xs font-mono text-slate-400">Week 1 Skeleton Overview</span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {ARCHITECTURE_STREAMS.map((stream) => (
+            <ModuleCard key={stream.title} {...stream} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
