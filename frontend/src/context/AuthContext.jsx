@@ -28,8 +28,22 @@ export const AuthProvider = ({ children }) => {
     verifyUser();
   }, []);
 
+  const login = async (email, password) => {
+    const data = await authApi.login(email, password);
+    setToken(data.access_token);
+    setUser(data.user);
+    localStorage.setItem('cloudshield_token', data.access_token);
+    localStorage.setItem('cloudshield_user', JSON.stringify(data.user));
+    return data.user;
+  };
+
+  const register = async (email, password, role = 'operator') => {
+    await authApi.register(email, password, role);
+    return login(email, password);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register }}>
       {children}
     </AuthContext.Provider>
   );
