@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import { AppShell } from './components/AppShell';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage';
-import { OverviewShellPage } from './pages/OverviewShellPage';
+import { DashboardPage } from './pages/DashboardPage';
 import { ModulePlaceholderPage } from './pages/ModulePlaceholderPage';
 
 export const App = () => {
@@ -19,7 +19,7 @@ export const App = () => {
               <ProtectedRoute>
                 <AppShell>
                   <Routes>
-                    <Route path="/" element={<OverviewShellPage />} />
+                    <Route path="/" element={<DashboardPage />} />
                     <Route
                       path="/resources"
                       element={
