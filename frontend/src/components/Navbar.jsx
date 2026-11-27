@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Menu, Search } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LogOut, Menu, Search } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const getPageTitle = (path) => {
@@ -29,8 +29,14 @@ export const getPageTitle = (path) => {
 };
 
 export const Navbar = ({ onToggleSidebar }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
   const displayName = user?.email?.split('@')[0] || 'Operator';
 
   return (
@@ -96,6 +102,15 @@ export const Navbar = ({ onToggleSidebar }) => {
               {user?.role || 'operator'}
             </p>
           </div>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            title="Sign Out"
+            aria-label="Sign Out"
+            className="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800/70 transition-colors ml-1"
+          >
+            <LogOut size={15} />
+          </button>
         </div>
       </div>
     </header>
