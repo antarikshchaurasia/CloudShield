@@ -34,3 +34,25 @@ def get_resource(
     if not resource:
         raise HTTPException(status_code=404, detail="Resource not found")
     return resource
+
+
+@router.post("", response_model=ResourceResponse)
+def create_resource(
+    payload: ResourceCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    existing = db.query(Resource).filter(Resource.name == payload.name).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Resource name already exists")
+
+    resource = Resource(
+        name=payload.name,
+        resource_type=payload.resource_type,
+        endpoint_or_path=payload.endpoint_or_path,
+        status=payload.status
+    )
+    db.add(resource)
+    db.commit()
+    db.refresh(resource)
+    return resource
